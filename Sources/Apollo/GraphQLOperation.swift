@@ -9,6 +9,7 @@ public protocol GraphQLOperation: class {
   
   var operationDefinition: String { get }
   var operationIdentifier: String? { get }
+  var operationName: String { get }
   
   var queryDocument: String { get }
   
@@ -24,6 +25,19 @@ public extension GraphQLOperation {
 
   var operationIdentifier: String? {
     return nil
+  }
+    
+  var operationName: String {
+    // Derive the operation name by cutting off the operation type suffix of the type name.
+    let typeName = String(describing: type(of: self))
+
+    for suffix in [ "Query", "Mutation", "Subscription" ] {
+      if typeName.hasSuffix(suffix) {
+        return String(typeName.dropLast(suffix.count))
+      }
+    }
+
+    return typeName
   }
 
   var variables: GraphQLMap? {

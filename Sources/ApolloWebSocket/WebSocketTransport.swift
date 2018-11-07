@@ -255,7 +255,7 @@ public class WebSocketTransport: NetworkTransport, WebSocketDelegate {
       }
       return ["id": operationIdentifier, "variables": operation.variables]
     }
-    return ["query": operation.queryDocument, "variables": operation.variables]
+    return ["query": operation.queryDocument, "operationName": operation.operationName, "variables": operation.variables]
   }
   
   public func unsubscribe(_ subscriptionId: String) {
